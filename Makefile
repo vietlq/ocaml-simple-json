@@ -15,10 +15,10 @@ native: http_client_01.ml
 	#ocamlopt -g -thread -o $@ unix.cmxa threads.cmxa lwt.cmxa $<
 
 debug: bytecode
-	ocamldebug ./serv_up.bt 3000
+	ocamldebug http_client_01.byte
 
-test:
-	./test_server.sh
+test: bytecode
+	./http_client_01.byte
 
 clean:
 	$(OCB) -clean
