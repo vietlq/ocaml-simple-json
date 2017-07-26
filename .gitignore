@@ -1,0 +1,11 @@
+*.a
+*.o
+*.cmx
+*.cmxa
+*.cma
+*.cmi
+*.cmo
+*.exe
+*.native
+*.byte
+_build
