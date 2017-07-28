@@ -1,0 +1,12 @@
+# https://ocaml.org/learn/tutorials/ocamlbuild/Using_threads.html
+# https://ocaml.org/learn/tutorials/ocamlbuild/Making_plugins.html
+# https://ocaml.org/learn/tutorials/ocamlbuild/Using_ocamlfind_with_ocamlbuild.html
+<basic_echo_server.ml> : thread, debug
+<basic_echo_server.{native,byte}> : use_unix, thread, debug
+
+# true: thread, debug
+
+#https://bitbucket.org/yminsky/core-hello-world/src/85769e337d3e70a4b9e3246503f59991c109afe8/_tags?at=default&fileviewer=file-view-default
+#true: syntax(camlp4o)
+#true: package(core,sexplib.syntax,bin_prot.syntax,comparelib.syntax,fieldslib.syntax,variantslib.syntax,async,core_extended)
+#true: thread,debug,annot

@@ -5,14 +5,16 @@ OCB=ocamlbuild
 all: bytecode
 
 # Byte code
-bytecode: http_client_01.ml
+bytecode:
 	$(OCB) -use-ocamlfind -pkgs cohttp.lwt http_client_01.byte | cat
 	#ocamlc -g -thread -o $@ unix.cma threads.cma lwt.cma $<
+	$(OCB) -use-ocamlfind -pkgs threads basic_echo_server.byte | cat
 
 # Native
-native: http_client_01.ml
+native:
 	$(OCB) -use-ocamlfind -pkgs cohttp.lwt http_client_01.native | cat
 	#ocamlopt -g -thread -o $@ unix.cmxa threads.cmxa lwt.cmxa $<
+	$(OCB) -use-ocamlfind -pkgs threads basic_echo_server.native | cat
 
 debug: bytecode
 	ocamldebug http_client_01.byte
