@@ -1,29 +1,34 @@
-let rec lex = parser
-  (* Ignore white spaces *)
-  | [< ' (' ' | '\t' | '\n' | '\r'); stream >] -> lex stream
-  | [< ' ('{'); stream=lex >] -> [< 'Token.T_OBJ_BEGIN; stream >]
-  | [< ' ('}'); stream=lex >] -> [< 'Token.T_OBJ_END; stream >]
-  | [< ' (']'); stream=lex >] -> [< 'Token.T_ARR_END; stream >]
-  | [< ' ('['); stream=lex >] -> [< 'Token.T_ARR_BEGIN; stream >]
-  | [< ' (':'); stream=lex >] -> [< 'Token.T_COLON; stream >]
-  | [< ' (','); stream=lex >] -> [< 'Token.T_COMMA; stream >]
-  (* Lex a string *)
-  | [< ' ('"'); stream >] ->
-    let buffer = Buffer.create 1 in
-    lex_string buffer stream
-  (* Lex a number *)
-  | [< ' ('-' | '0'..'9' as c); stream >] ->
-    let buffer = Buffer.create 1 in
-    Buffer.add_char buffer c;
-    lex_number buffer stream
-  (* Lex true/false/null *)
-  | [< ' ('t' | 'f' | 'n' as c); stream >] ->
-    let buffer = Buffer.create 1 in
-    Buffer.add_char buffer c;
-    lex_tfn buffer stream
-  | [< ' c; _ >] -> failwith (Printf.sprintf "Invalid character: %c" c)
+let rec lex stream =
+  match Stream.peek stream with
   (* The end of stream *)
-  | [< >] -> [< >]
+  | None -> Stream.from (fun _ -> None)
+  | Some c -> begin
+    match c with
+    (* Ignore white spaces *)
+    | ' ' | '\t' | '\n' | '\r' -> Stream.junk stream; lex stream
+    (* Important characters *)
+    | '{' -> Stream.from (fun _ -> Some Token.T_OBJ_BEGIN)
+    | '}' -> Stream.from (fun _ -> Some Token.T_OBJ_END)
+    | '[' -> Stream.from (fun _ -> Some Token.T_ARR_BEGIN)
+    | ']' -> Stream.from (fun _ -> Some Token.T_ARR_END)
+    | ':' -> Stream.from (fun _ -> Some Token.T_COLON)
+    | ',' -> Stream.from (fun _ -> Some Token.T_COMMA)
+    (* Lex a string *)
+    | '"' ->
+      let buffer = Buffer.create 1 in
+      lex_string buffer stream
+    (* Lex a number *)
+    | '-' -> | '0'..'9' as c); stream >] ->
+      let buffer = Buffer.create 1 in
+      Buffer.add_char buffer c;
+      lex_number buffer stream
+    (* Lex true/false/null *)
+    | 't' | 'f' | 'n' as c ->
+      let buffer = Buffer.create 1 in
+      Buffer.add_char buffer c;
+      lex_tfn buffer stream
+    | c -> failwith (Printf.sprintf "Invalid character: %c" c)
+    end
 
 and lex_string buffer = parser
   (* Note: "\"" == "\x22", and "\\" == "\x5c" *)
