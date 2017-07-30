@@ -35,11 +35,11 @@ and parse_json_null lex_res =
 and parse_primary lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_STRING _, stream) -> parse_json_string @@ Lexer.lex stream
-  | Some (Token.T_NUMBER _, stream) -> parse_json_number @@ Lexer.lex stream
-  | Some (Token.T_TRUE, stream) -> parse_json_bool @@ Lexer.lex stream
-  | Some (Token.T_FALSE, stream) -> parse_json_bool @@ Lexer.lex stream
-  | Some (Token.T_NULL, stream) -> parse_json_null @@ Lexer.lex stream
+  | Some (Token.T_STRING _, stream) -> parse_json_string lex_res
+  | Some (Token.T_NUMBER _, stream) -> parse_json_number lex_res
+  | Some (Token.T_TRUE, stream) -> parse_json_bool lex_res
+  | Some (Token.T_FALSE, stream) -> parse_json_bool lex_res
+  | Some (Token.T_NULL, stream) -> parse_json_null lex_res
   | _ -> Printexc.print_backtrace stdout ;
     raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
 
