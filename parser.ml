@@ -7,10 +7,8 @@ exception Bad_syntax of string
 let rec parse_value lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_OBJ_BEGIN, stream) ->
-    print_endline "T_OBJ_BEGIN"; parse_object lex_res
-  | Some (Token.T_ARR_BEGIN, stream) ->
-    print_endline "T_ARR_BEGIN"; parse_array lex_res
+  | Some (Token.T_OBJ_BEGIN, stream) -> parse_object lex_res
+  | Some (Token.T_ARR_BEGIN, stream) -> parse_array lex_res
   | _ -> parse_primary lex_res
 
 and parse_json_string lex_res =
@@ -106,24 +104,23 @@ and parse_object lex_res =
       let rec parse_object_part accumulator lex_res =
         match lex_res with
         | None -> raise (Stream.Error "Expected }.")
-        | Some (Token.T_OBJ_END, _) ->
-          Ok (Json.JsonObject accumulator)
+        | Some (Token.T_OBJ_END, stream) ->
+          Some (Ok (Json.JsonObject accumulator), stream)
         | Some (Token.T_COMMA, stream) ->
           let (pair, stream) = parse_object_pair @@ Lexer.lex stream in
           begin
             match accumulator with
             | x :: _ -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
-            | [] -> Error "Expected a JSON pair before the T_COMMA."
+            | [] -> Some (Error "Expected a JSON pair before the T_COMMA.", stream)
           end
         | Some (_, stream) ->
           let (pair, stream) = parse_object_pair @@ Lexer.lex stream in
           begin
             match accumulator with
-            | x :: _ -> Error "Expected T_COMMA before the JSON pair."
+            | x :: _ -> Some (Error "Expected T_COMMA before the JSON pair.", stream)
             | [] -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
           end
-      in let res = parse_object_part [] (Lexer.lex stream)
-      in Some (res, stream)
+      in parse_object_part [] (Lexer.lex stream)
     end
   | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
 
