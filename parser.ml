@@ -2,8 +2,6 @@ type ('a, 'b) result =
   | Ok of 'a
   | Error of 'b
 
-exception Bad_syntax of string
-
 let rec parse_value lex_res =
   match lex_res with
   | None -> None
@@ -13,24 +11,28 @@ let rec parse_value lex_res =
 
 and parse_json_string lex_res =
   match lex_res with
+  | None -> None
   | Some (Token.T_STRING strVal, stream) -> Some (Ok (Json.JsonString strVal), stream)
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_number lex_res =
   match lex_res with
+  | None -> None
   | Some (Token.T_NUMBER number, stream) -> Some (Ok (Json.JsonNumber number), stream)
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_bool lex_res =
   match lex_res with
+  | None -> None
   | Some (Token.T_TRUE, stream) -> Some (Ok (Json.JsonBool true), stream)
   | Some (Token.T_FALSE, stream) -> Some (Ok (Json.JsonBool false), stream)
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_null lex_res =
   match lex_res with
+  | None -> None
   | Some (Token.T_NULL, stream) -> Some (Ok (Json.JsonNull), stream)
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_primary lex_res =
   match lex_res with
@@ -40,11 +42,11 @@ and parse_primary lex_res =
   | Some (Token.T_TRUE, stream) -> parse_json_bool lex_res
   | Some (Token.T_FALSE, stream) -> parse_json_bool lex_res
   | Some (Token.T_NULL, stream) -> parse_json_null lex_res
-  | _ -> Printexc.print_backtrace stdout ;
-    raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_array lex_res =
   match lex_res with
+  | None -> None
   | Some (Token.T_ARR_BEGIN, stream) ->
     begin
       let rec parse_array_part accumulator lex_res =
@@ -62,7 +64,7 @@ and parse_array lex_res =
                 | x :: _ -> parse_array_part (json :: accumulator) (Lexer.lex stream)
                 | [] -> Some (Error "Expected a JSON value before the T_COMMA.", stream)
               end
-            | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+            | Some (_, stream) -> Some (Error __LOC__, stream)
           end
         | Some (_, _) as new_lex_res ->
           match parse_value new_lex_res with
@@ -76,14 +78,14 @@ and parse_array lex_res =
             end
       in parse_array_part [] (Lexer.lex stream)
     end
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_object_pair lex_res =
   match lex_res with
   | Some (Token.T_STRING key, stream) ->
     begin
       match Lexer.lex stream with
-      | None -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+      | None -> raise (Stream.Error "Expected a T_COLON.")
       | Some (Token.T_COLON, stream) ->
         begin
           match parse_value @@ Lexer.lex stream with
@@ -91,12 +93,13 @@ and parse_object_pair lex_res =
           | Some (Error e, stream) -> raise (Stream.Error e)
           | Some (Ok (value : Json.value), stream) -> ((key, value), stream)
         end
-      | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+      | _ -> raise (Stream.Error "Expected a T_COLON.")
     end
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | _ -> raise (Stream.Error "Expected a T_COLON.")
 
 and parse_object lex_res =
   match lex_res with
+  | None -> None
   | Some (Token.T_OBJ_BEGIN, stream) ->
     begin
       let rec parse_object_part accumulator lex_res =
@@ -118,10 +121,10 @@ and parse_object lex_res =
             | x :: _ -> Some (Error "Expected T_COMMA before the JSON pair.", stream)
             | [] -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
           end
-        | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+        | Some (_, stream) -> Some (Error __LOC__, stream)
       in parse_object_part [] (Lexer.lex stream)
     end
-  | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
+  | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_top_level lex_res =
   match lex_res with

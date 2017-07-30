@@ -11,9 +11,9 @@ let rec main_loop parse_res =
       print_string "ready> "; flush stdout;
       main_loop @@ Parser.parse_top_level @@ Lexer.lex stream
   with
-  | Parser.Bad_syntax s ->
-    print_endline s ;
-    Printexc.print_backtrace stdout; flush stdout
+  | _ ->
+    Printexc.print_backtrace stdout;
+    flush stdout
 
 let main () =
   print_string "ready> "; flush stdout;
