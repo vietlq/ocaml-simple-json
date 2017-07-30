@@ -48,13 +48,13 @@ and parse_array lex_res =
   | Some (Token.T_ARR_BEGIN, stream) ->
     begin
       let rec parse_array_part accumulator lex_res =
-        match Lexer.lex stream with
+        match lex_res with
         | None -> raise (Stream.Error "Expected ].")
         | Some (Token.T_ARR_END, stream) ->
           Some (Ok (Json.JsonArray accumulator), stream)
         | Some (Token.T_COMMA, stream) ->
           begin
-            match parse_json_string @@ Lexer.lex stream with
+            match parse_value @@ Lexer.lex stream with
             | None -> Some (Error "Expected a JSON value in the array (1).", stream)
             | Some (Ok (json : Json.value), stream) ->
               begin
@@ -64,18 +64,16 @@ and parse_array lex_res =
               end
             | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
           end
-        | Some (_, stream) ->
-          begin
-            match parse_value @@ Lexer.lex stream with
-            | None -> Some (Error "Expected a JSON value in the array (2).", stream)
-            | Some (Error e, stream) -> Some (Error e, stream)
-            | Some (Ok (json : Json.value), stream) ->
-              begin
-                match accumulator with
-                | x :: _ -> Some (Error "Expected T_COMMA before the JSON value.", stream)
-                | [] -> parse_array_part (json :: accumulator) (Lexer.lex stream)
-              end
-          end
+        | Some (_, _) as new_lex_res ->
+          match parse_value new_lex_res with
+          | None -> Some (Error "Expected a JSON value in the array (2).", stream)
+          | Some (Error e, stream) -> Some (Error e, stream)
+          | Some (Ok (json : Json.value), stream) ->
+            begin
+              match accumulator with
+              | x :: _ -> Some (Error "Expected T_COMMA before the JSON value.", stream)
+              | [] -> parse_array_part (json :: accumulator) (Lexer.lex stream)
+            end
       in parse_array_part [] (Lexer.lex stream)
     end
   | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
