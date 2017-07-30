@@ -1,13 +1,19 @@
 let rec main_loop parse_res =
-  match parse_res with
-  | None -> ()
-  | Some (Parser.Error e, stream) ->
-    prerr_endline e; flush stderr;
-    main_loop (Parser.parse_top_level @@ Lexer.lex stream)
-  | Some (Parser.Ok (json_value: Json.value), stream) ->
-    print_endline (Json.string_of_json json_value);
-    print_string "ready> "; flush stdout;
-    main_loop @@ Parser.parse_top_level @@ Lexer.lex stream
+  try
+    match parse_res with
+    | None -> ()
+    | Some (Parser.Error e, stream) ->
+      prerr_endline e; flush stderr;
+      print_string "ready> "; flush stdout;
+      main_loop @@ Parser.parse_top_level @@ Lexer.lex stream
+    | Some (Parser.Ok (json_value: Json.value), stream) ->
+      print_endline (Json.string_of_json json_value);
+      print_string "ready> "; flush stdout;
+      main_loop @@ Parser.parse_top_level @@ Lexer.lex stream
+  with
+  | Parser.Bad_syntax s ->
+    print_endline s ;
+    Printexc.print_backtrace stdout; flush stdout
 
 let main () =
   print_string "ready> "; flush stdout;
