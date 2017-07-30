@@ -4,6 +4,7 @@ https://opam.ocaml.org/doc/Packaging.html
 https://github.com/ocaml/opam-repository
 
 https://github.com/eishay/jvm-serializers/wiki
+https://github.com/miloyip/nativejson-benchmark
 
 https://ocaml.org/learn/tutorials/performance_and_profiling.html
 https://stackoverflow.com/questions/9061421/running-time-in-ocaml
