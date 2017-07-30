@@ -5,10 +5,10 @@ all: interfaces build_parser
 	make test | wc
 	make time_test
 
-test:
+test: interfaces
 	./run_json_test.sh
 
-time_test:
+time_test: interfaces
 	./run_time_test.sh
 
 debug_parser: build_parser
