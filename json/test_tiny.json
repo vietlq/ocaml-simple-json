@@ -1,0 +1,92 @@
+[
+  {
+    "_id": "597e32302eaf59e11f779e6f",
+    "index": 0,
+    "guid": "9f946bdb-00d3-4ddc-876c-4b136b06c85a",
+    "isActive": false,
+    "balance": "$1,202.48",
+    "picture": "http://placehold.it/32x32",
+    "age": 38,
+    "eyeColor": "brown",
+    "name": "Stark Martin",
+    "gender": "male",
+    "company": "EQUITAX",
+    "email": "starkmartin@equitax.com",
+    "phone": "+1 (866) 532-3501",
+    "address": "522 John Street, Maplewood, Northern Mariana Islands, 2429",
+    "about": "Veniam ea esse id incididunt commodo nostrud duis amet exercitation et. Incididunt anim qui in eu occaecat eu. Ullamco id eiusmod labore incididunt incididunt. Et quis qui reprehenderit occaecat commodo laboris ex aliqua aliqua est incididunt id esse exercitation.\r\n",
+    "registered": "2014-09-14T12:53:10 -01:00",
+    "latitude": 10.362232,
+    "longitude": -6.940265,
+    "tags": [
+      "cillum",
+      "labore",
+      "esse",
+      "eu",
+      "do",
+      "et",
+      "qui"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Cruz Hardin"
+      },
+      {
+        "id": 1,
+        "name": "Dionne Britt"
+      },
+      {
+        "id": 2,
+        "name": "Margaret Merrill"
+      }
+    ],
+    "greeting": "Hello, Stark Martin! You have 4 unread messages.",
+    "favoriteFruit": "strawberry"
+  },
+  {
+    "_id": "597e3230fa1f049779d5723b",
+    "index": 1,
+    "guid": "a1ff44ad-2936-4c40-8943-725ec46a93a4",
+    "isActive": false,
+    "balance": "$1,297.15",
+    "picture": "http://placehold.it/32x32",
+    "age": 22,
+    "eyeColor": "green",
+    "name": "Staci Hensley",
+    "gender": "female",
+    "company": "MAROPTIC",
+    "email": "stacihensley@maroptic.com",
+    "phone": "+1 (882) 576-3918",
+    "address": "751 Gaylord Drive, Dawn, New Jersey, 8931",
+    "about": "Voluptate sunt magna nulla dolor minim elit quis aute non excepteur reprehenderit duis eu adipisicing. Ut aute anim dolor nostrud ipsum aute deserunt sunt id ad. Incididunt ad dolor proident occaecat commodo laborum pariatur. Sint sit consectetur ea incididunt commodo sint proident. Deserunt occaecat ea ipsum laboris aliquip sint do nisi fugiat do mollit cupidatat ad fugiat.\r\n",
+    "registered": "2015-01-14T11:22:06 -00:00",
+    "latitude": -83.635971,
+    "longitude": 151.092087,
+    "tags": [
+      "elit",
+      "culpa",
+      "consectetur",
+      "duis",
+      "non",
+      "fugiat",
+      "velit"
+    ],
+    "friends": [
+      {
+        "id": 0,
+        "name": "Leta Decker"
+      },
+      {
+        "id": 1,
+        "name": "Mcfarland Goodman"
+      },
+      {
+        "id": 2,
+        "name": "Pearson Fulton"
+      }
+    ],
+    "greeting": "Hello, Staci Hensley! You have 6 unread messages.",
+    "favoriteFruit": "strawberry"
+  }
+]
