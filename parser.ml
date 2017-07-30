@@ -12,20 +12,24 @@ let rec parse_value lex_res =
 and parse_json_string lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_STRING strVal, stream) -> Some (Ok (Json.JsonString strVal), stream)
+  | Some (Token.T_STRING strVal, stream) ->
+    Some (Ok (Json.JsonString strVal), stream)
   | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_number lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_NUMBER number, stream) -> Some (Ok (Json.JsonNumber number), stream)
+  | Some (Token.T_NUMBER number, stream) ->
+    Some (Ok (Json.JsonNumber number), stream)
   | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_bool lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_TRUE, stream) -> Some (Ok (Json.JsonBool true), stream)
-  | Some (Token.T_FALSE, stream) -> Some (Ok (Json.JsonBool false), stream)
+  | Some (Token.T_TRUE, stream) ->
+    Some (Ok (Json.JsonBool true), stream)
+  | Some (Token.T_FALSE, stream) ->
+    Some (Ok (Json.JsonBool false), stream)
   | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_null lex_res =
@@ -57,24 +61,30 @@ and parse_array lex_res =
         | Some (Token.T_COMMA, stream) ->
           begin
             match parse_value @@ Lexer.lex stream with
-            | None -> Some (Error "Expected a JSON value in the array (1).", stream)
+            | None ->
+              Some (Error "Expected a JSON value in the array (1).", stream)
             | Some (Ok (json : Json.value), stream) ->
               begin
                 match accumulator with
-                | x :: _ -> parse_array_part (json :: accumulator) (Lexer.lex stream)
-                | [] -> Some (Error "Expected a JSON value before the T_COMMA.", stream)
+                | x :: _ ->
+                  parse_array_part (json :: accumulator) (Lexer.lex stream)
+                | [] ->
+                  Some (Error "Expected a JSON value before the T_COMMA.", stream)
               end
             | Some (_, stream) -> Some (Error __LOC__, stream)
           end
         | Some (_, _) as new_lex_res ->
           match parse_value new_lex_res with
-          | None -> Some (Error "Expected a JSON value in the array (2).", stream)
+          | None ->
+            Some (Error "Expected a JSON value in the array (2).", stream)
           | Some (Error e, stream) -> Some (Error e, stream)
           | Some (Ok (json : Json.value), stream) ->
             begin
               match accumulator with
-              | x :: _ -> Some (Error "Expected T_COMMA before the JSON value.", stream)
-              | [] -> parse_array_part (json :: accumulator) (Lexer.lex stream)
+              | x :: _ ->
+                Some (Error "Expected T_COMMA before the JSON value.", stream)
+              | [] ->
+                parse_array_part (json :: accumulator) (Lexer.lex stream)
             end
       in parse_array_part [] (Lexer.lex stream)
     end
@@ -89,7 +99,8 @@ and parse_object_pair lex_res =
       | Some (Token.T_COLON, stream) ->
         begin
           match parse_value @@ Lexer.lex stream with
-          | None -> raise (Stream.Error "Expected a JSON value in the object pair.")
+          | None ->
+            raise (Stream.Error "Expected a JSON value in the object pair.")
           | Some (Error e, stream) -> raise (Stream.Error e)
           | Some (Ok (value : Json.value), stream) -> ((key, value), stream)
         end
@@ -111,15 +122,19 @@ and parse_object lex_res =
           let (pair, stream) = parse_object_pair @@ Lexer.lex stream in
           begin
             match accumulator with
-            | x :: _ -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
-            | [] -> Some (Error "Expected a JSON pair before the T_COMMA.", stream)
+            | x :: _ ->
+              parse_object_part (pair :: accumulator) (Lexer.lex stream)
+            | [] ->
+              Some (Error "Expected a JSON pair before the T_COMMA.", stream)
           end
         | Some (Token.T_STRING _, _) as new_lex_res ->
           let (pair, stream) = parse_object_pair new_lex_res in
           begin
             match accumulator with
-            | x :: _ -> Some (Error "Expected T_COMMA before the JSON pair.", stream)
-            | [] -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
+            | x :: _ ->
+              Some (Error "Expected T_COMMA before the JSON pair.", stream)
+            | [] ->
+              parse_object_part (pair :: accumulator) (Lexer.lex stream)
           end
         | Some (_, stream) -> Some (Error __LOC__, stream)
       in parse_object_part [] (Lexer.lex stream)
