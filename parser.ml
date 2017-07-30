@@ -2,102 +2,130 @@ type ('a, 'b) result =
   | Ok of 'a
   | Error of 'b
 
-let rec parse_value = parser
-  | [< obj=parse_object; stream >] -> [< ' (obj, stream) >]
-  | [< arr=parse_array; stream >] -> [< ' (arr, stream) >]
-  | [< json=parse_primary; stream >] -> [< ' (json, stream) >]
-  | [< >] -> [< >]
+let rec parse_value lex_res =
+  match lex_res with
+  | None -> None
+  | Some (Token.T_OBJ_BEGIN, stream) -> parse_object @@ Lexer.lex stream
+  | Some (Token.T_ARR_BEGIN, stream) -> parse_array @@ Lexer.lex stream
+  | Some (_, stream) -> parse_primary @@ Lexer.lex stream
 
-and parse_json_string = parser
-  | [< 'Token.T_STRING strVal >] -> Ok (Json.JsonString strVal)
+and parse_json_string lex_res =
+  match lex_res with
+  | Some (Token.T_STRING strVal, stream) -> Some (Ok (Json.JsonString strVal), stream)
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
 
-and parse_json_number = parser
-  | [< 'Token.T_NUMBER number >] -> Ok (Json.JsonNumber number)
+and parse_json_number lex_res =
+  match lex_res with
+  | Some (Token.T_NUMBER number, stream) -> Some (Ok (Json.JsonNumber number), stream)
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
 
-and parse_json_bool = parser
-  | [< 'Token.T_TRUE >] -> Ok (Json.JsonBool true)
-  | [< 'Token.T_FALSE >] -> Ok (Json.JsonBool false)
+and parse_json_bool lex_res =
+  match lex_res with
+  | Some (Token.T_TRUE, stream) -> Some (Ok (Json.JsonBool true), stream)
+  | Some (Token.T_FALSE, stream) -> Some (Ok (Json.JsonBool false), stream)
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
 
-and parse_json_null = parser
-  | [< 'Token.T_NULL >] -> Ok (Json.JsonNull)
+and parse_json_null lex_res =
+  match lex_res with
+  | Some (Token.T_NULL, stream) -> Some (Ok (Json.JsonNull), stream)
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
 
-and parse_primary = parser
-  | [< json=parse_json_string >] -> json
-  | [< json=parse_json_number >] -> json
-  | [< json=parse_json_bool >] -> json
-  | [< json=parse_json_null >] -> json
+and parse_primary lex_res =
+  match lex_res with
+  | Some (Token.T_STRING _, stream) -> parse_json_string @@ Lexer.lex stream
+  | Some (Token.T_NUMBER _, stream) -> parse_json_number @@ Lexer.lex stream
+  | Some (Token.T_TRUE, stream) -> parse_json_bool @@ Lexer.lex stream
+  | Some (Token.T_FALSE, stream) -> parse_json_bool @@ Lexer.lex stream
+  | Some (Token.T_NULL, stream) -> parse_json_null @@ Lexer.lex stream
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
 
-and parse_array = parser
-  | [< 'Token.T_ARR_BEGIN; stream >] ->
-    let rec parse_array_part accumulator = parser
-      | [< 'Token.T_ARR_END >] ->
-        Ok (Json.JsonArray accumulator)
-      | [< 'Token.T_COMMA; stream >] ->
-        let json_stream = parse_value stream in
-        begin
-          match Stream.peek json_stream with
-          | None -> Error "Expected a JSON value in the array (1)."
-          | Some (Error e, stream) -> Error e
-          | Some (Ok (json : Json.value), stream) ->
-            begin
-              match accumulator with
-              | x :: _ -> parse_array_part (json :: accumulator) stream
-              | [] -> Error "Expected a JSON value before the T_COMMA."
-            end
-        end
-      | [< stream >] ->
-        let json_stream = parse_value stream in
-        begin
-          match Stream.peek json_stream with
-          | None -> Error "Expected a JSON value in the array (2)."
-          | Some (Error e, stream) -> Error e
-          | Some (Ok (json : Json.value), stream) ->
-            begin
-              match accumulator with
-              | x :: _ -> Error "Expected T_COMMA before the JSON value."
-              | [] -> parse_array_part (json :: accumulator) stream
-            end
-        end
-      | [< >] -> raise (Stream.Error "Expected ].")
-    in parse_array_part [] stream
-
-and parse_object_pair = parser
-  | [< 'Token.T_STRING key; 'Token.T_COLON; stream >] ->
-    let json_stream = parse_value stream in
+and parse_array lex_res =
+  match lex_res with
+  | Some (Token.T_ARR_BEGIN, stream) ->
     begin
-      match Stream.peek json_stream with
-      | None -> raise (Stream.Error "Expected a JSON value in the object pair.")
-      | Some (Error e, stream) -> raise (Stream.Error e)
-      | Some (Ok (value : Json.value), stream) -> (key, value)
+      let rec parse_array_part accumulator lex_res =
+        match Lexer.lex stream with
+        | None -> raise (Stream.Error "Expected ].")
+        | Some (Token.T_ARR_END, stream) ->
+          Some (Ok (Json.JsonArray accumulator), stream)
+        | Some (Token.T_COMMA, stream) ->
+          begin
+            match parse_json_string @@ Lexer.lex stream with
+            | None -> Some (Error "Expected a JSON value in the array (1).", stream)
+            | Some (Ok (json : Json.value), stream) ->
+              begin
+                match accumulator with
+                | x :: _ -> parse_array_part (json :: accumulator) (Lexer.lex stream)
+                | [] -> Some (Error "Expected a JSON value before the T_COMMA.", stream)
+              end
+            | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
+          end
+        | Some (_, stream) ->
+          begin
+            match parse_value @@ Lexer.lex stream with
+            | None -> Some (Error "Expected a JSON value in the array (2).", stream)
+            | Some (Error e, stream) -> Some (Error e, stream)
+            | Some (Ok (json : Json.value), stream) ->
+              begin
+                match accumulator with
+                | x :: _ -> Some (Error "Expected T_COMMA before the JSON value.", stream)
+                | [] -> parse_array_part (json :: accumulator) (Lexer.lex stream)
+              end
+          end
+      in parse_array_part [] (Lexer.lex stream)
     end
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
 
-and parse_object = parser
-  | [< 'Token.T_OBJ_BEGIN; stream >] ->
-    let rec parse_object_part accumulator = parser
-      | [< 'Token.T_OBJ_END >] ->
-        Ok (Json.JsonObject accumulator)
-      | [< 'Token.T_COMMA; pair=parse_object_pair; stream >] ->
-        begin
-          match accumulator with
-          | x :: _ -> parse_object_part (pair :: accumulator) stream
-          | [] -> Error "Expected a JSON pair before the T_COMMA."
-        end
-      | [< pair=parse_object_pair; stream >] ->
-        begin
-          match accumulator with
-          | x :: _ -> Error "Expected T_COMMA before the JSON pair."
-          | [] -> parse_object_part (pair :: accumulator) stream
-        end
-      | [< >] -> raise (Stream.Error "Expected }.")
-    in parse_object_part [] stream
-
-and parse_top_level = parser
-  | [< stream >] ->
+and parse_object_pair lex_res =
+  match lex_res with
+  | Some (Token.T_STRING key, stream) ->
     begin
-      match Stream.peek stream with
-      | None -> [< >]
-      | Some Token.T_OBJ_BEGIN -> parse_value stream
-      | Some Token.T_ARR_BEGIN -> parse_value stream
-      | Some _ -> [< '
-        (Error "The top-level JSON value must be an object or an array.", stream) >]
+      match Lexer.lex stream with
+      | None -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
+      | Some (Token.T_COLON, stream) ->
+        begin
+          match parse_value @@ Lexer.lex stream with
+          | None -> raise (Stream.Error "Expected a JSON value in the object pair.")
+          | Some (Error e, stream) -> raise (Stream.Error e)
+          | Some (Ok (value : Json.value), stream) -> ((key, value), stream)
+        end
+      | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
     end
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
+
+and parse_object lex_res =
+  match lex_res with
+  | Some (Token.T_OBJ_BEGIN, stream) ->
+    begin
+      let rec parse_object_part accumulator lex_res =
+        match lex_res with
+        | None -> raise (Stream.Error "Expected }.")
+        | Some (Token.T_OBJ_END, _) ->
+          Ok (Json.JsonObject accumulator)
+        | Some (Token.T_COMMA, stream) ->
+          let (pair, stream) = parse_object_pair @@ Lexer.lex stream in
+          begin
+            match accumulator with
+            | x :: _ -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
+            | [] -> Error "Expected a JSON pair before the T_COMMA."
+          end
+        | Some (_, stream) ->
+          let (pair, stream) = parse_object_pair @@ Lexer.lex stream in
+          begin
+            match accumulator with
+            | x :: _ -> Error "Expected T_COMMA before the JSON pair."
+            | [] -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
+          end
+      in let res = parse_object_part [] (Lexer.lex stream)
+      in Some (res, stream)
+    end
+  | _ -> failwith @@ Printf.sprintf "Bad: %s" __LOC__
+
+and parse_top_level lex_res =
+  match lex_res with
+  | None -> None
+  | Some (Token.T_OBJ_BEGIN, stream) -> parse_value @@ Lexer.lex stream
+  | Some (Token.T_ARR_BEGIN, stream) -> parse_value @@ Lexer.lex stream
+  | Some (_, stream) ->
+    let err = "The top-level JSON value must be an object or an array." in
+    Some (Error err, stream)
