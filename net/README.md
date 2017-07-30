@@ -36,6 +36,8 @@ ocamlopt -o abc.native unix.cmxa threads.cmxa abc.ml
 
 ## References
 
+https://opam.ocaml.org/doc/Packaging.html
+
 https://stackoverflow.com/questions/16783056/ocamlbuild-and-packages-installed-via-opam
 
 https://stackoverflow.com/questions/16552834/how-to-use-thread-compiler-flag-with-ocamlbuild
