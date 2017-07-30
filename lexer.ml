@@ -59,7 +59,8 @@ and lex_string buffer stream =
     end ;
     lex_string buffer stream
   | '"' ->
-    Some (Token.T_STRING (Buffer.contents buffer), stream)
+    let str = (Buffer.contents buffer) in
+    Some (Token.T_STRING str, stream)
 
 and lex_number buffer stream =
   match Stream.peek stream with
@@ -68,7 +69,8 @@ and lex_number buffer stream =
     Buffer.add_char buffer c ;
     lex_number buffer stream
   | _ ->
-    Some (Token.T_NUMBER (float_of_string (Buffer.contents buffer)), stream)
+    let num = (float_of_string (Buffer.contents buffer)) in
+    Some (Token.T_NUMBER num, stream)
 
 and lex_tfn buffer stream =
   match Stream.peek stream with
