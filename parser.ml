@@ -125,7 +125,7 @@ and parse_object lex_res =
             | x :: _ ->
               parse_object_part (pair :: accumulator) (Lexer.lex stream)
             | [] ->
-              Some (Error "Expected a JSON pair before the T_COMMA.", stream)
+              Some (Error "Expected a JSON pair before T_COMMA.", stream)
           end
         | Some (Token.T_STRING _, _) as new_lex_res ->
           let (pair, stream) = parse_object_pair new_lex_res in
