@@ -9,3 +9,7 @@ http://numeraljs.com/
 http://www.json-generator.com/
 https://www.npmjs.com/package/faker
 https://www.npmjs.com/package/fake-json
+
+https://bucklescript.github.io/bucklescript-playground/
+https://github.com/reasonml/
+https://reasonml.github.io/
