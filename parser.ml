@@ -111,13 +111,14 @@ and parse_object lex_res =
             | x :: _ -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
             | [] -> Some (Error "Expected a JSON pair before the T_COMMA.", stream)
           end
-        | Some (_, stream) ->
-          let (pair, stream) = parse_object_pair @@ Lexer.lex stream in
+        | Some (Token.T_STRING _, _) as new_lex_res ->
+          let (pair, stream) = parse_object_pair new_lex_res in
           begin
             match accumulator with
             | x :: _ -> Some (Error "Expected T_COMMA before the JSON pair.", stream)
             | [] -> parse_object_part (pair :: accumulator) (Lexer.lex stream)
           end
+        | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))
       in parse_object_part [] (Lexer.lex stream)
     end
   | _ -> raise (Bad_syntax (Printf.sprintf "Bad: %s" __LOC__))

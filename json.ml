@@ -16,7 +16,7 @@ let rec string_of_json json_value =
     begin
       let string_of_obj_pairs pairs =
         let pairs = List.rev_map (fun (key, value) ->
-          Printf.sprintf "%s: %s"
+          Printf.sprintf "\"%s\": %s"
             key
             (string_of_json value)) pairs
         in
