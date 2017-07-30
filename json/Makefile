@@ -1,11 +1,7 @@
 .PHONY: all clean token json lexer parser test
-.PHONY: build_parser debug_parser
+.PHONY: build_parser debug_parser interfaces
 
-all:
-	ocamlopt -c token.mli
-	ocamlopt -c json.mli
-	ocamlopt -c lexer.mli
-	ocamlopt -c parser.mli
+all: interfaces build_parser
 	make test | wc
 
 test:
@@ -20,6 +16,12 @@ build_parser: token json lexer parser
 
 clean:
 	rm -rf *.o *.cmi *.cmx *.cmo *.byte *.native *.cma *.cmxa
+
+interfaces:
+	ocamlopt -c token.mli
+	ocamlopt -c json.mli
+	ocamlopt -c lexer.mli
+	ocamlopt -c parser.mli
 
 token:
 	ocamlc -c token.mli
