@@ -12,15 +12,13 @@ type token =
   | T_NULL
 ;;
 
-let stream_of_token t = Stream.from (fun acc -> Some t) ;;
-
-let ret_val t stream = (stream_of_token t, stream) ;;
+let ret_val t stream = Some t, stream ;;
 
 let lex stream =
   let rec aux stream acc =
     match Stream.peek stream with
     (* The end of stream *)
-    | None -> (Stream.from (fun acc -> None), stream)
+    | None -> None, stream
     | Some c -> begin
       Stream.junk stream;
       match c with
