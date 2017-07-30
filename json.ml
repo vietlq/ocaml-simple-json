@@ -17,7 +17,7 @@ let rec string_of_json json_value =
       let string_of_obj_pairs pairs =
         let pairs = List.rev_map (fun (key, value) ->
           Printf.sprintf "\"%s\": %s"
-            key
+            (String.escaped key)
             (string_of_json value)) pairs
         in
         String.concat ", " pairs
@@ -30,7 +30,7 @@ let rec string_of_json json_value =
         String.concat ", " items
       in Printf.sprintf "[%s]" (string_of_arr_items arr)
     end
-  | JsonString s -> Printf.sprintf "\"%s\"" s
+  | JsonString s -> Printf.sprintf "\"%s\"" (String.escaped s)
   | JsonNumber n -> string_of_float n
   | JsonBool b -> (match b with
       | true -> "true"
