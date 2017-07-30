@@ -12,8 +12,6 @@ type token =
   | T_NULL
 ;;
 
-let make_lazy_list t stream = LazyList (t, fun () -> lex stream) ;;
-
 let stream_of_token t = Stream.from (fun acc -> Some t) ;;
 
 let ret_val t stream = (stream_of_token t, stream) ;;
