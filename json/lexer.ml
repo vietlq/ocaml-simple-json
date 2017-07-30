@@ -57,6 +57,7 @@ and lex_string buffer stream =
       | Some 't'  -> Buffer.add_char buffer '\t'
       | Some _ -> failwith "Invalid escape character!"
     end ;
+    Stream.junk stream ;
     lex_string buffer stream
   | '"' ->
     let str = (Buffer.contents buffer) in
