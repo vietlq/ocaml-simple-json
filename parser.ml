@@ -7,8 +7,10 @@ exception Bad_syntax of string
 let rec parse_value lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_OBJ_BEGIN, stream) -> parse_object lex_res
-  | Some (Token.T_ARR_BEGIN, stream) -> parse_array lex_res
+  | Some (Token.T_OBJ_BEGIN, stream) ->
+    print_endline "T_OBJ_BEGIN"; parse_object lex_res
+  | Some (Token.T_ARR_BEGIN, stream) ->
+    print_endline "T_ARR_BEGIN"; parse_array lex_res
   | _ -> parse_primary lex_res
 
 and parse_json_string lex_res =
@@ -128,8 +130,8 @@ and parse_object lex_res =
 and parse_top_level lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_OBJ_BEGIN, stream) -> parse_value @@ Lexer.lex stream
-  | Some (Token.T_ARR_BEGIN, stream) -> parse_value @@ Lexer.lex stream
+  | Some (Token.T_OBJ_BEGIN, stream) -> parse_value lex_res
+  | Some (Token.T_ARR_BEGIN, stream) -> parse_value lex_res
   | Some (_, stream) ->
     let err = "The top-level JSON value must be an object or an array." in
     Some (Error err, stream)

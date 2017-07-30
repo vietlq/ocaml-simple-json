@@ -7,6 +7,7 @@ let rec lex stream =
   (* The end of stream *)
   | None -> None
   | Some c -> begin
+    Printf.printf "Got char: %c\n" c;
     match c with
     (* Ignore white spaces *)
     | ' ' | '\t' | '\n' | '\r' -> Stream.junk stream ; lex stream
