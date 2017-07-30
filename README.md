@@ -3,6 +3,8 @@
 https://opam.ocaml.org/doc/Packaging.html
 https://github.com/ocaml/opam-repository
 
+https://github.com/eishay/jvm-serializers/wiki
+
 https://ocaml.org/learn/tutorials/performance_and_profiling.html
 https://stackoverflow.com/questions/9061421/running-time-in-ocaml
 https://stackoverflow.com/questions/10205543/saving-gmon-out-before-killing-a-process
