@@ -1,11 +1,15 @@
 .PHONY: all clean token json lexer parser test
-.PHONY: build_parser debug_parser interfaces
+.PHONY: build_parser debug_parser interfaces time_test
 
 all: interfaces build_parser
 	make test | wc
+	make time_test
 
 test:
 	./run_json_test.sh
+
+time_test:
+	./run_time_test.sh
 
 debug_parser: build_parser
 	ocamldebug ./test_json_parser.byte

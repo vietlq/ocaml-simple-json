@@ -8,4 +8,5 @@
 *.exe
 *.native
 *.byte
+ocamlprof.dump
 _build
