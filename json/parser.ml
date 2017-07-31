@@ -86,7 +86,15 @@ and parse_array lex_res =
               | [] ->
                 parse_array_part (json :: accumulator) (Lexer.lex stream)
             end
-      in parse_array_part [] (Lexer.lex stream)
+      in try
+        match Lexer.lex stream with
+        | None -> Some (Error "Expected T_ARR_END", stream)
+        | Some (_, _) as new_lex_res ->
+          parse_array_part [] new_lex_res
+      with
+      | Failure s -> Some (Error s, stream)
+      | Stream.Failure -> Some (Error "Expected T_ARR_END", stream)
+      | Stream.Error s -> Some (Error s, stream)
     end
   | Some (_, stream) -> Some (Error __LOC__, stream)
 
