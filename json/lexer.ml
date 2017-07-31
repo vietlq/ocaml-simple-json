@@ -56,25 +56,47 @@ and lex_string buffer stream =
   | '\x20' | '\x21' | '\x23' .. '\x5b' | '\x5d' .. '\x7e' as c ->
     Buffer.add_char buffer c ;
     lex_string buffer stream
-  | ('\\') ->
+  | '\\' ->
     begin
-      match Stream.peek stream with
-      | None -> failwith "Invalid string!"
-      | Some '"'  -> Buffer.add_char buffer '"'
-      | Some '\\' -> Buffer.add_char buffer '\\'
-      | Some '/'  -> Buffer.add_char buffer '/'
-      | Some 'b'  -> Buffer.add_char buffer '\b'
-      | Some 'f'  -> Buffer.add_char buffer '\x0c'
-      | Some 'n'  -> Buffer.add_char buffer '\n'
-      | Some 'r'  -> Buffer.add_char buffer '\r'
-      | Some 't'  -> Buffer.add_char buffer '\t'
-      | Some _ -> failwith "Invalid escape character!"
+      match Stream.next stream with
+      | 'u' | 'U' as c ->
+        begin
+          Buffer.add_char buffer '\\' ;
+          Buffer.add_char buffer c ;
+          lex_unicode buffer stream
+        end
+      | '"'  -> Buffer.add_char buffer '"'
+      | '\\' -> Buffer.add_char buffer '\\'
+      | '/'  -> Buffer.add_char buffer '/'
+      | 'b'  -> Buffer.add_char buffer '\b'
+      | 'f'  -> Buffer.add_char buffer '\x0c'
+      | 'n'  -> Buffer.add_char buffer '\n'
+      | 'r'  -> Buffer.add_char buffer '\r'
+      | 't'  -> Buffer.add_char buffer '\t'
+      | _ -> failwith "Invalid escape character!"
     end ;
-    Stream.junk stream ;
     lex_string buffer stream
   | '"' ->
     let str = (Buffer.contents buffer) in
     Some (Token.T_STRING str, stream)
+
+and lex_hex buffer stream =
+  match Stream.peek stream with
+  | None -> failwith "Premature ending. Expected escaped unicode"
+  | Some c ->
+    begin
+      match c with
+      | 'a'..'f' | 'A'..'F' | '0'..'9' ->
+        Stream.junk stream ;
+        Buffer.add_char buffer c
+      | _ -> failwith "Expected escaped unicode"
+    end
+
+and lex_unicode buffer stream =
+  lex_hex buffer stream ;
+  lex_hex buffer stream ;
+  lex_hex buffer stream ;
+  lex_hex buffer stream
 
 and lex_number buffer stream =
   match Stream.peek stream with
