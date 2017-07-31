@@ -6,9 +6,9 @@ nativejson-benchmark/data/jsonchecker/fail02.json: BAD
 nativejson-benchmark/data/jsonchecker/fail03.json: BAD
 	Error: Invalid character: u
 nativejson-benchmark/data/jsonchecker/fail04.json: BAD
-	Error: File "parser.ml", line 74, characters 46-53
+	Error: Expected a JSON value after T_COMMA in JSON Array
 nativejson-benchmark/data/jsonchecker/fail05.json: BAD
-	Error: File "parser.ml", line 74, characters 46-53
+	Error: Expected a JSON value after T_COMMA in JSON Array
 nativejson-benchmark/data/jsonchecker/fail06.json: BAD
 	Error: Expected a JSON value before the T_COMMA.
 nativejson-benchmark/data/jsonchecker/fail07.json: GOOD
@@ -59,6 +59,6 @@ nativejson-benchmark/data/jsonchecker/fail32.json: BAD
 nativejson-benchmark/data/jsonchecker/fail33.json: BAD
 	Error: File "parser.ml", line 49, characters 36-43
 nativejson-benchmark/data/jsonchecker/pass01.json: BAD
-	Error: File "parser.ml", line 74, characters 46-53
+	Error: Expected a JSON value after T_COMMA in JSON Array
 nativejson-benchmark/data/jsonchecker/pass02.json: GOOD
 nativejson-benchmark/data/jsonchecker/pass03.json: GOOD

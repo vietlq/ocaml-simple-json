@@ -71,7 +71,9 @@ and parse_array lex_res =
                 | [] ->
                   Some (Error "Expected a JSON value before the T_COMMA.", stream)
               end
-            | Some (_, stream) -> Some (Error __LOC__, stream)
+            | Some (_, stream) ->
+              let e =  "Expected a JSON value after T_COMMA in JSON Array"
+              in Some (Error e, stream)
           end
         | Some (_, _) as new_lex_res ->
           match parse_value new_lex_res with
