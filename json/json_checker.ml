@@ -8,11 +8,15 @@ let check_json_file file () =
   try
     match parse_file file () with
     | None ->
-    Printf.printf "%s: Nothing\n" file
+      Printf.printf "%s: Nothing\n" file
     | Some (Parser.Error e, _) ->
-    Printf.printf "%s: BAD\n\tError: %s\n" file e
-    | Some (Parser.Ok _, _) ->
-    Printf.printf "%s: GOOD\n" file
+      Printf.printf "%s: BAD\n\tError: %s\n" file e
+    | Some (Parser.Ok _, stream) ->
+      match Parser.parse_top_level @@ Lexer.lex stream with
+      | None -> Printf.printf "%s: GOOD\n" file
+      | _ ->
+        let e = "Error: Got extra token after JSON Array/Object" in
+        Printf.printf "%s: BAD.\n%s\n" file e
   with
   | Failure s ->
     Printf.printf "%s: BAD\n\tException: %s\n" file s

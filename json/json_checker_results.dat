@@ -11,11 +11,14 @@ nativejson-benchmark/data/jsonchecker/fail05.json: BAD
 	Error: Expected a JSON value after T_COMMA in JSON Array
 nativejson-benchmark/data/jsonchecker/fail06.json: BAD
 	Error: Expected a JSON value before the T_COMMA.
-nativejson-benchmark/data/jsonchecker/fail07.json: GOOD
-nativejson-benchmark/data/jsonchecker/fail08.json: GOOD
+nativejson-benchmark/data/jsonchecker/fail07.json: BAD.
+Error: Got extra token after JSON Array/Object
+nativejson-benchmark/data/jsonchecker/fail08.json: BAD.
+Error: Got extra token after JSON Array/Object
 nativejson-benchmark/data/jsonchecker/fail09.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object.
-nativejson-benchmark/data/jsonchecker/fail10.json: GOOD
+nativejson-benchmark/data/jsonchecker/fail10.json: BAD.
+Error: Got extra token after JSON Array/Object
 nativejson-benchmark/data/jsonchecker/fail11.json: BAD
 	Error: Invalid character: +
 nativejson-benchmark/data/jsonchecker/fail12.json: BAD
