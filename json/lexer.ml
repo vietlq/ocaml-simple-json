@@ -59,10 +59,10 @@ and lex_string buffer stream =
   | '\\' ->
     begin
       match Stream.next stream with
-      | 'u' | 'U' as c ->
+      | 'u' ->
         begin
           Buffer.add_char buffer '\\' ;
-          Buffer.add_char buffer c ;
+          Buffer.add_char buffer 'u' ;
           lex_unicode buffer stream
         end
       | '"'  -> Buffer.add_char buffer '"'

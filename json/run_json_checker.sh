@@ -2,7 +2,7 @@
 
 function check_json()
 {
-    path=nativejson-benchmark/data/jsonchecker
+    path=data/jsonchecker
     for test in $(echo ${path}/*.json)
     do
         ./json_checker ${test};

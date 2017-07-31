@@ -1,101 +1,101 @@
 Running JSON Checker:
-nativejson-benchmark/data/jsonchecker/fail01_EXCLUDE.json: BAD
+data/jsonchecker/fail01_EXCLUDE.json: BAD
 	Error: The top-level JSON value must be an object or an array..
 Char pos = 60
-nativejson-benchmark/data/jsonchecker/fail02.json: BAD
+data/jsonchecker/fail02.json: BAD
 	Error: Expected ]..
 Char pos = 17
-nativejson-benchmark/data/jsonchecker/fail03.json: BAD
+data/jsonchecker/fail03.json: BAD
 	Error: Invalid character: u.
 Char pos = 1
-nativejson-benchmark/data/jsonchecker/fail04.json: BAD
+data/jsonchecker/fail04.json: BAD
 	Error: Expected a JSON value after T_COMMA in JSON Array.
 Char pos = 16
-nativejson-benchmark/data/jsonchecker/fail05.json: BAD
+data/jsonchecker/fail05.json: BAD
 	Error: Expected a JSON value after T_COMMA in JSON Array.
 Char pos = 23
-nativejson-benchmark/data/jsonchecker/fail06.json: BAD
+data/jsonchecker/fail06.json: BAD
 	Error: Expected a JSON value before the T_COMMA..
 Char pos = 25
-nativejson-benchmark/data/jsonchecker/fail07.json: BAD.
+data/jsonchecker/fail07.json: BAD.
 Error: Got extra token after JSON Array/Object
 Char pos = 26
-nativejson-benchmark/data/jsonchecker/fail08.json: BAD.
+data/jsonchecker/fail08.json: BAD.
 Error: Got extra token after JSON Array/Object
 Char pos = 16
-nativejson-benchmark/data/jsonchecker/fail09.json: BAD
+data/jsonchecker/fail09.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object..
 Char pos = 22
-nativejson-benchmark/data/jsonchecker/fail10.json: BAD.
+data/jsonchecker/fail10.json: BAD.
 Error: Got extra token after JSON Array/Object
 Char pos = 58
-nativejson-benchmark/data/jsonchecker/fail11.json: BAD
+data/jsonchecker/fail11.json: BAD
 	Error: Invalid character: +.
 Char pos = 25
-nativejson-benchmark/data/jsonchecker/fail12.json: BAD
+data/jsonchecker/fail12.json: BAD
 	Error: Invalid character: a.
 Char pos = 23
-nativejson-benchmark/data/jsonchecker/fail13.json: BAD
+data/jsonchecker/fail13.json: BAD
 	Error: Numbers cannot have leading zeroes!.
 Char pos = 40
-nativejson-benchmark/data/jsonchecker/fail14.json: BAD
+data/jsonchecker/fail14.json: BAD
 	Error: Invalid character: x.
 Char pos = 27
-nativejson-benchmark/data/jsonchecker/fail15.json: BAD
+data/jsonchecker/fail15.json: BAD
 	Error: Invalid escape character!.
 Char pos = 30
-nativejson-benchmark/data/jsonchecker/fail16.json: BAD
+data/jsonchecker/fail16.json: BAD
 	Error: Invalid character: \.
 Char pos = 1
-nativejson-benchmark/data/jsonchecker/fail17.json: BAD
+data/jsonchecker/fail17.json: BAD
 	Error: Invalid escape character!.
 Char pos = 30
-nativejson-benchmark/data/jsonchecker/fail18_EXCLUDE.json: GOOD
-nativejson-benchmark/data/jsonchecker/fail19.json: BAD
+data/jsonchecker/fail18_EXCLUDE.json: GOOD
+data/jsonchecker/fail19.json: BAD
 	Error: Expected a T_COLON..
 Char pos = 21
-nativejson-benchmark/data/jsonchecker/fail20.json: BAD
+data/jsonchecker/fail20.json: BAD
 	Error: parse_primary: Expected a JSON value.
 Char pos = 17
-nativejson-benchmark/data/jsonchecker/fail21.json: BAD
+data/jsonchecker/fail21.json: BAD
 	Error: Expected a T_COLON..
 Char pos = 26
-nativejson-benchmark/data/jsonchecker/fail22.json: BAD
+data/jsonchecker/fail22.json: BAD
 	Error: Invalid token. Expected a T_COMMA or ']'.
 Char pos = 26
-nativejson-benchmark/data/jsonchecker/fail23.json: BAD
+data/jsonchecker/fail23.json: BAD
 	Error: Invalid literal: truth.
 Char pos = 19
-nativejson-benchmark/data/jsonchecker/fail24.json: BAD
+data/jsonchecker/fail24.json: BAD
 	Error: Invalid character: '.
 Char pos = 1
-nativejson-benchmark/data/jsonchecker/fail25.json: BAD
+data/jsonchecker/fail25.json: BAD
 	Error: Non-printable chars must be escaped!.
 Char pos = 3
-nativejson-benchmark/data/jsonchecker/fail26.json: BAD
+data/jsonchecker/fail26.json: BAD
 	Error: Invalid escape character!.
 Char pos = 7
-nativejson-benchmark/data/jsonchecker/fail27.json: BAD
+data/jsonchecker/fail27.json: BAD
 	Error: Non-printable chars must be escaped!.
 Char pos = 7
-nativejson-benchmark/data/jsonchecker/fail28.json: BAD
+data/jsonchecker/fail28.json: BAD
 	Error: Invalid escape character!.
 Char pos = 8
-nativejson-benchmark/data/jsonchecker/fail29.json: BAD
+data/jsonchecker/fail29.json: BAD
 	Error: float_of_string.
 Char pos = 3
-nativejson-benchmark/data/jsonchecker/fail30.json: BAD
+data/jsonchecker/fail30.json: BAD
 	Error: float_of_string.
 Char pos = 4
-nativejson-benchmark/data/jsonchecker/fail31.json: BAD
+data/jsonchecker/fail31.json: BAD
 	Error: float_of_string.
 Char pos = 6
-nativejson-benchmark/data/jsonchecker/fail32.json: BAD
+data/jsonchecker/fail32.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object..
 Char pos = 40
-nativejson-benchmark/data/jsonchecker/fail33.json: BAD
+data/jsonchecker/fail33.json: BAD
 	Error: Invalid token. Expected a T_COMMA or ']'.
 Char pos = 12
-nativejson-benchmark/data/jsonchecker/pass01.json: GOOD
-nativejson-benchmark/data/jsonchecker/pass02.json: GOOD
-nativejson-benchmark/data/jsonchecker/pass03.json: GOOD
+data/jsonchecker/pass01.json: GOOD
+data/jsonchecker/pass02.json: GOOD
+data/jsonchecker/pass03.json: GOOD
