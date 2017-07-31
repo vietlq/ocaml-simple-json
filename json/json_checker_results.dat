@@ -45,10 +45,12 @@ nativejson-benchmark/data/jsonchecker/fail23.json: BAD
 	Error: Invalid literal: truth
 nativejson-benchmark/data/jsonchecker/fail24.json: BAD
 	Error: Invalid character: '
-nativejson-benchmark/data/jsonchecker/fail25.json: GOOD
+nativejson-benchmark/data/jsonchecker/fail25.json: BAD
+	Error: Non-printable chars must be escaped!
 nativejson-benchmark/data/jsonchecker/fail26.json: BAD
 	Error: Invalid escape character!
-nativejson-benchmark/data/jsonchecker/fail27.json: GOOD
+nativejson-benchmark/data/jsonchecker/fail27.json: BAD
+	Error: Non-printable chars must be escaped!
 nativejson-benchmark/data/jsonchecker/fail28.json: BAD
 	Error: Invalid escape character!
 nativejson-benchmark/data/jsonchecker/fail29.json: BAD

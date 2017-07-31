@@ -39,8 +39,11 @@ let rec lex stream =
 
 and lex_string buffer stream =
   match Stream.next stream with
+  (* Non-printable chars must be escaped *)
+  | '\x00' .. '\x1f' | '\x7f' .. '\xff' ->
+    failwith "Non-printable chars must be escaped!"
   (* Note: "\"" == "\x22", and "\\" == "\x5c" *)
-  | '\x00' .. '\x21' | '\x23' .. '\x5b' | '\x5d' .. '\xff' as c ->
+  | '\x20' | '\x21' | '\x23' .. '\x5b' | '\x5d' .. '\x7e' as c ->
     Buffer.add_char buffer c ;
     lex_string buffer stream
   | ('\\') ->
