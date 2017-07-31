@@ -114,7 +114,9 @@ and parse_object_pair lex_res =
         end
       | _ -> raise (Stream.Error "Expected a T_COLON.")
     end
-  | _ -> raise (Stream.Error "Expected a T_COLON.")
+  | _ ->
+    let e = "Expected a T_OBJ_END '}' or T_STRING key for JSON object."
+    in raise (Stream.Error e)
 
 and parse_object lex_res =
   match lex_res with
@@ -145,7 +147,15 @@ and parse_object lex_res =
               parse_object_part (pair :: accumulator) (Lexer.lex stream)
           end
         | Some (_, stream) -> Some (Error __LOC__, stream)
-      in parse_object_part [] (Lexer.lex stream)
+      in try
+        match Lexer.lex stream with
+        | None -> Some (Error "Expected T_OBJ_END", stream)
+        | Some (_, _) as new_lex_res ->
+          parse_object_part [] new_lex_res
+      with
+      | Failure s -> Some (Error s, stream)
+      | Stream.Failure -> Some (Error "Expected T_OBJ_END", stream)
+      | Stream.Error s -> Some (Error s, stream)
     end
   | Some (_, stream) -> Some (Error __LOC__, stream)
 

@@ -4,7 +4,7 @@ nativejson-benchmark/data/jsonchecker/fail01_EXCLUDE.json: BAD
 nativejson-benchmark/data/jsonchecker/fail02.json: BAD
 	Error: Expected ].
 nativejson-benchmark/data/jsonchecker/fail03.json: BAD
-	Exception: Invalid character: u
+	Error: Invalid character: u
 nativejson-benchmark/data/jsonchecker/fail04.json: BAD
 	Error: File "parser.ml", line 74, characters 46-53
 nativejson-benchmark/data/jsonchecker/fail05.json: BAD
@@ -14,15 +14,15 @@ nativejson-benchmark/data/jsonchecker/fail06.json: BAD
 nativejson-benchmark/data/jsonchecker/fail07.json: GOOD
 nativejson-benchmark/data/jsonchecker/fail08.json: GOOD
 nativejson-benchmark/data/jsonchecker/fail09.json: BAD
-	Unknown exception!
+	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object.
 nativejson-benchmark/data/jsonchecker/fail10.json: GOOD
 nativejson-benchmark/data/jsonchecker/fail11.json: BAD
-	Exception: Invalid character: +
+	Error: Invalid character: +
 nativejson-benchmark/data/jsonchecker/fail12.json: BAD
-	Exception: Invalid character: a
+	Error: Invalid character: a
 nativejson-benchmark/data/jsonchecker/fail13.json: GOOD
 nativejson-benchmark/data/jsonchecker/fail14.json: BAD
-	Exception: Invalid character: x
+	Error: Invalid character: x
 nativejson-benchmark/data/jsonchecker/fail15.json: BAD
 	Error: Invalid escape character!
 nativejson-benchmark/data/jsonchecker/fail16.json: BAD
@@ -31,11 +31,11 @@ nativejson-benchmark/data/jsonchecker/fail17.json: BAD
 	Error: Invalid escape character!
 nativejson-benchmark/data/jsonchecker/fail18_EXCLUDE.json: GOOD
 nativejson-benchmark/data/jsonchecker/fail19.json: BAD
-	Unknown exception!
+	Error: Expected a T_COLON.
 nativejson-benchmark/data/jsonchecker/fail20.json: BAD
-	Unknown exception!
+	Error: File "parser.ml", line 49, characters 36-43
 nativejson-benchmark/data/jsonchecker/fail21.json: BAD
-	Unknown exception!
+	Error: Expected a T_COLON.
 nativejson-benchmark/data/jsonchecker/fail22.json: BAD
 	Error: File "parser.ml", line 49, characters 36-43
 nativejson-benchmark/data/jsonchecker/fail23.json: BAD
@@ -55,10 +55,10 @@ nativejson-benchmark/data/jsonchecker/fail30.json: BAD
 nativejson-benchmark/data/jsonchecker/fail31.json: BAD
 	Error: float_of_string
 nativejson-benchmark/data/jsonchecker/fail32.json: BAD
-	Unknown exception!
+	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object.
 nativejson-benchmark/data/jsonchecker/fail33.json: BAD
 	Error: File "parser.ml", line 49, characters 36-43
 nativejson-benchmark/data/jsonchecker/pass01.json: BAD
-	Error: float_of_string
+	Error: File "parser.ml", line 74, characters 46-53
 nativejson-benchmark/data/jsonchecker/pass02.json: GOOD
 nativejson-benchmark/data/jsonchecker/pass03.json: GOOD
