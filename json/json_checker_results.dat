@@ -26,7 +26,7 @@ nativejson-benchmark/data/jsonchecker/fail12.json: BAD
 nativejson-benchmark/data/jsonchecker/fail13.json: BAD
 	Error: Numbers cannot have leading zeroes!
 nativejson-benchmark/data/jsonchecker/fail14.json: BAD
-	Error: Numbers cannot have leading zeroes!
+	Error: Invalid character: x
 nativejson-benchmark/data/jsonchecker/fail15.json: BAD
 	Error: Invalid escape character!
 nativejson-benchmark/data/jsonchecker/fail16.json: BAD
@@ -55,11 +55,11 @@ nativejson-benchmark/data/jsonchecker/fail27.json: BAD
 nativejson-benchmark/data/jsonchecker/fail28.json: BAD
 	Error: Invalid escape character!
 nativejson-benchmark/data/jsonchecker/fail29.json: BAD
-	Error: Numbers cannot have leading zeroes!
+	Error: float_of_string
 nativejson-benchmark/data/jsonchecker/fail30.json: BAD
-	Error: Numbers cannot have leading zeroes!
+	Error: float_of_string
 nativejson-benchmark/data/jsonchecker/fail31.json: BAD
-	Error: Numbers cannot have leading zeroes!
+	Error: float_of_string
 nativejson-benchmark/data/jsonchecker/fail32.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object.
 nativejson-benchmark/data/jsonchecker/fail33.json: BAD

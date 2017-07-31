@@ -24,16 +24,20 @@ let rec lex stream =
         lex_string buffer stream
       (* Lex a number *)
       | '-' | '0'..'9' as c ->
-        if c == '0'
-        then
-          failwith "Numbers cannot have leading zeroes!"
-        else
-          begin
-            let buffer = Buffer.create 1 in
-            Stream.junk stream ;
-            Buffer.add_char buffer c ;
-            lex_number buffer stream
-          end
+        let buffer = Buffer.create 1 in
+        Stream.junk stream ;
+        Buffer.add_char buffer c ;
+        if c == '0' then
+          match Stream.peek stream with
+          | Some c ->
+            begin
+              match c with
+              | 'e' | 'E' | '.' -> lex_number buffer stream
+              | '0'..'9' -> failwith "Numbers cannot have leading zeroes!"
+              | _ -> lex_number buffer stream
+            end
+          | _ -> lex_number buffer stream
+        else lex_number buffer stream
       (* Lex true/false/null *)
       | 't' | 'f' | 'n' as c ->
         let buffer = Buffer.create 1 in
