@@ -33,11 +33,11 @@ nativejson-benchmark/data/jsonchecker/fail18_EXCLUDE.json: GOOD
 nativejson-benchmark/data/jsonchecker/fail19.json: BAD
 	Error: Expected a T_COLON.
 nativejson-benchmark/data/jsonchecker/fail20.json: BAD
-	Error: File "parser.ml", line 49, characters 36-43
+	Error: parse_primary: Expected a JSON value
 nativejson-benchmark/data/jsonchecker/fail21.json: BAD
 	Error: Expected a T_COLON.
 nativejson-benchmark/data/jsonchecker/fail22.json: BAD
-	Error: File "parser.ml", line 49, characters 36-43
+	Error: parse_primary: Expected a JSON value
 nativejson-benchmark/data/jsonchecker/fail23.json: BAD
 	Error: Invalid literal: truth
 nativejson-benchmark/data/jsonchecker/fail24.json: BAD
@@ -57,7 +57,7 @@ nativejson-benchmark/data/jsonchecker/fail31.json: BAD
 nativejson-benchmark/data/jsonchecker/fail32.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object.
 nativejson-benchmark/data/jsonchecker/fail33.json: BAD
-	Error: File "parser.ml", line 49, characters 36-43
+	Error: parse_primary: Expected a JSON value
 nativejson-benchmark/data/jsonchecker/pass01.json: BAD
 	Error: Expected a JSON value after T_COMMA in JSON Array
 nativejson-benchmark/data/jsonchecker/pass02.json: GOOD

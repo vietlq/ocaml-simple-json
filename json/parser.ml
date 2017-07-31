@@ -46,7 +46,8 @@ and parse_primary lex_res =
   | Some (Token.T_TRUE, stream) -> parse_json_bool lex_res
   | Some (Token.T_FALSE, stream) -> parse_json_bool lex_res
   | Some (Token.T_NULL, stream) -> parse_json_null lex_res
-  | Some (_, stream) -> Some (Error __LOC__, stream)
+  | Some (_, stream) ->
+    Some (Error "parse_primary: Expected a JSON value", stream)
 
 and parse_array lex_res =
   match lex_res with
