@@ -86,18 +86,16 @@ nativejson-benchmark/data/jsonchecker/fail29.json: BAD
 Char pos = 3
 nativejson-benchmark/data/jsonchecker/fail30.json: BAD
 	Error: float_of_string.
-Char pos = 3
+Char pos = 4
 nativejson-benchmark/data/jsonchecker/fail31.json: BAD
 	Error: float_of_string.
-Char pos = 3
+Char pos = 6
 nativejson-benchmark/data/jsonchecker/fail32.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object..
 Char pos = 40
 nativejson-benchmark/data/jsonchecker/fail33.json: BAD
 	Error: Invalid token. Expected a T_COMMA or ']'.
 Char pos = 12
-nativejson-benchmark/data/jsonchecker/pass01.json: BAD
-	Error: Expected a JSON value after T_COMMA in JSON Array.
-Char pos = 236
+nativejson-benchmark/data/jsonchecker/pass01.json: GOOD
 nativejson-benchmark/data/jsonchecker/pass02.json: GOOD
 nativejson-benchmark/data/jsonchecker/pass03.json: GOOD

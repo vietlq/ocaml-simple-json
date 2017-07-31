@@ -100,7 +100,7 @@ and lex_unicode buffer stream =
 
 and lex_number buffer stream =
   match Stream.peek stream with
-  | Some ('0'..'9' | '.' | 'E' | 'e' as c) ->
+  | Some ('0'..'9' | '.' | '-' | '+' | 'E' | 'e' as c) ->
     Stream.junk stream ;
     Buffer.add_char buffer c ;
     lex_number buffer stream
