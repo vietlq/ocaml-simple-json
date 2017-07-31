@@ -17,7 +17,7 @@ let check_json_file file () =
       | None -> Printf.printf "%s: GOOD\n" file
       | _ ->
         let e = "Error: Got extra token after JSON Array/Object" in
-        Printf.printf "%s: BAD.\n%s\nChar pos =%d\n"
+        Printf.printf "%s: BAD.\n%s\nChar pos = %d\n"
           file e (Stream.count stream)
   with
   | Failure s ->

@@ -19,16 +19,16 @@ nativejson-benchmark/data/jsonchecker/fail06.json: BAD
 Char pos = 25
 nativejson-benchmark/data/jsonchecker/fail07.json: BAD.
 Error: Got extra token after JSON Array/Object
-Char pos =26
+Char pos = 26
 nativejson-benchmark/data/jsonchecker/fail08.json: BAD.
 Error: Got extra token after JSON Array/Object
-Char pos =16
+Char pos = 16
 nativejson-benchmark/data/jsonchecker/fail09.json: BAD
 	Error: Expected a T_OBJ_END '}' or T_STRING key for JSON object..
 Char pos = 22
 nativejson-benchmark/data/jsonchecker/fail10.json: BAD.
 Error: Got extra token after JSON Array/Object
-Char pos =58
+Char pos = 58
 nativejson-benchmark/data/jsonchecker/fail11.json: BAD
 	Error: Invalid character: +.
 Char pos = 25
