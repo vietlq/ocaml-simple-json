@@ -76,19 +76,28 @@ and parse_array lex_res =
               let e =  "Expected a JSON value after T_COMMA in JSON Array"
               in Some (Error e, stream)
           end
-        | Some (_, _) as new_lex_res ->
-          match parse_value new_lex_res with
-          | None ->
-            Some (Error "Expected a JSON value in the array (2).", stream)
-          | Some (Error e, stream) -> Some (Error e, stream)
-          | Some (Ok (json : Json.value), stream) ->
-            begin
-              match accumulator with
-              | x :: _ ->
-                Some (Error "Expected T_COMMA before the JSON value.", stream)
-              | [] ->
-                parse_array_part (json :: accumulator) (Lexer.lex stream)
-            end
+        | Some (Token.T_STRING _, _)
+        | Some (Token.T_NUMBER _, _)
+        | Some (Token.T_TRUE, _)
+        | Some (Token.T_FALSE, _)
+        | Some (Token.T_NULL, _)
+        | Some (Token.T_OBJ_BEGIN, _)
+        | Some (Token.T_ARR_BEGIN, _) as new_lex_res ->
+          begin
+            match parse_value new_lex_res with
+            | None ->
+              Some (Error "Expected a JSON value in the array (2).", stream)
+            | Some (Error e, stream) -> Some (Error e, stream)
+            | Some (Ok (json : Json.value), stream) ->
+              begin
+                match accumulator with
+                | x :: _ ->
+                  Some (Error "Expected T_COMMA before JSON value.", stream)
+                | [] ->
+                  parse_array_part (json :: accumulator) (Lexer.lex stream)
+              end
+          end
+        | _ -> Some (Error "Invalid token. Expected a T_COMMA or ']'", stream)
       in try
         match Lexer.lex stream with
         | None -> Some (Error "Expected T_ARR_END", stream)
