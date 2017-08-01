@@ -105,8 +105,16 @@ and lex_number buffer stream =
     Buffer.add_char buffer c ;
     lex_number buffer stream
   | _ ->
-    let num = (float_of_string (Buffer.contents buffer)) in
-    Some (Token.T_NUMBER num, stream)
+    begin
+      let num_str = Buffer.contents buffer in
+      try
+        let num = Int64.of_string num_str in
+        Some (Token.T_NUM_INT num, stream)
+      with
+      | Failure _ ->
+        let num = float_of_string num_str in
+        Some (Token.T_NUM_FP num, stream)
+    end
 
 and lex_tfn buffer stream =
   match Stream.peek stream with

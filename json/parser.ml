@@ -19,8 +19,10 @@ and parse_json_string lex_res =
 and parse_json_number lex_res =
   match lex_res with
   | None -> None
-  | Some (Token.T_NUMBER number, stream) ->
-    Some (Ok (Json.JsonNumber number), stream)
+  | Some (Token.T_NUM_FP number, stream) ->
+    Some (Ok (Json.JsonFloat number), stream)
+  | Some (Token.T_NUM_INT number, stream) ->
+    Some (Ok (Json.JsonInt number), stream)
   | Some (_, stream) -> Some (Error __LOC__, stream)
 
 and parse_json_bool lex_res =
@@ -42,7 +44,8 @@ and parse_primary lex_res =
   match lex_res with
   | None -> None
   | Some (Token.T_STRING _, stream) -> parse_json_string lex_res
-  | Some (Token.T_NUMBER _, stream) -> parse_json_number lex_res
+  | Some (Token.T_NUM_FP _, stream) -> parse_json_number lex_res
+  | Some (Token.T_NUM_INT _, stream) -> parse_json_number lex_res
   | Some (Token.T_TRUE, stream) -> parse_json_bool lex_res
   | Some (Token.T_FALSE, stream) -> parse_json_bool lex_res
   | Some (Token.T_NULL, stream) -> parse_json_null lex_res
@@ -77,7 +80,8 @@ and parse_array lex_res =
               in Some (Error e, stream)
           end
         | Some (Token.T_STRING _, _)
-        | Some (Token.T_NUMBER _, _)
+        | Some (Token.T_NUM_FP _, _)
+        | Some (Token.T_NUM_INT _, _)
         | Some (Token.T_TRUE, _)
         | Some (Token.T_FALSE, _)
         | Some (Token.T_NULL, _)

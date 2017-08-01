@@ -6,7 +6,8 @@ type token =
   | T_COLON            (* : *)
   | T_COMMA            (* , *)
   | T_STRING of string
-  | T_NUMBER of float
+  | T_NUM_INT of Int64.t
+  | T_NUM_FP of float
   | T_TRUE
   | T_FALSE
   | T_NULL

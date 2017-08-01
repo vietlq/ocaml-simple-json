@@ -6,7 +6,8 @@ and value =
   | JsonObject of json_object
   | JsonArray of array
   | JsonString of string
-  | JsonNumber of float
+  | JsonInt of Int64.t
+  | JsonFloat of float
   | JsonBool of bool
   | JsonNull
 
@@ -31,7 +32,8 @@ let rec string_of_json json_value =
       in Printf.sprintf "[%s]" (string_of_arr_items arr)
     end
   | JsonString s -> Printf.sprintf "\"%s\"" (String.escaped s)
-  | JsonNumber n -> string_of_float n
+  | JsonInt n -> Int64.to_string n
+  | JsonFloat n -> string_of_float n
   | JsonBool b -> (match b with
       | true -> "true"
       | _ -> "false")
