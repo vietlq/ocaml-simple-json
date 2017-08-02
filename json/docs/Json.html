@@ -21,12 +21,21 @@
 </div>
 <h1>Module <a href="type_Json.html">Json</a></h1>
 
-<pre><span class="keyword">module</span> Json: <code class="code">sig</code> <a href="Json.html">..</a> <code class="code">end</code></pre><hr width="100%">
+<pre><span class="keyword">module</span> Json: <code class="code">sig</code> <a href="Json.html">..</a> <code class="code">end</code></pre><div class="info module top">
+JSON types and operations.<br>
+</div>
+<hr width="100%">
 
 <pre><span id="TYPEjson_object"><span class="keyword">type</span> <code class="type"></code>json_object</span> = <code class="type">(string * <a href="Json.html#TYPEvalue">value</a>) list</code> </pre>
+<div class="info ">
+JSON Object<br>
+</div>
 
 
 <pre><span id="TYPEarray"><span class="keyword">type</span> <code class="type"></code>array</span> = <code class="type"><a href="Json.html#TYPEvalue">value</a> list</code> </pre>
+<div class="info ">
+JSON Array<br>
+</div>
 
 
 <pre><code><span id="TYPEvalue"><span class="keyword">type</span> <code class="type"></code>value</span> = </code></pre><table class="typetable">
@@ -80,6 +89,12 @@
 
 </tr></table>
 
+<div class="info ">
+JSON Values. Note: Custom handling of integers.<br>
+</div>
 
 
-<pre><span id="VALstring_of_json"><span class="keyword">val</span> string_of_json</span> : <code class="type"><a href="Json.html#TYPEvalue">value</a> -> string</code></pre></body></html>
+<pre><span id="VALstring_of_json"><span class="keyword">val</span> string_of_json</span> : <code class="type"><a href="Json.html#TYPEvalue">value</a> -> string</code></pre><div class="info ">
+Convert a JSON <code class="code">value</code> to a condensed <code class="code">string</code><br>
+</div>
+</body></html>

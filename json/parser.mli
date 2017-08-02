@@ -1,5 +1,5 @@
 (**
-    Parse top level JSON values from tokens: Array or Object
+    Parser interface produces JSON values from lexer tokens.
 *)
 
 (** Return variant type: [Ok] for good operations and [Error] for errors *)

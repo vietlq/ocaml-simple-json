@@ -1,3 +1,6 @@
+(** Lexer tokens. *)
+
+(** Lexer tokens. Note: Custom handling of integer values *)
 type token =
     T_OBJ_BEGIN
   | T_OBJ_END
