@@ -6,7 +6,8 @@ let rec lex stream =
   match Stream.peek stream with
   (* The end of stream *)
   | None -> None
-  | Some c -> begin
+  | Some c ->
+    begin
       match c with
       (* Ignore white spaces *)
       | ' ' | '\t' | '\n' | '\r' -> Stream.junk stream ; lex stream
@@ -49,6 +50,10 @@ let rec lex stream =
 
 and lex_string buffer stream =
   match Stream.next stream with
+  (* The end of the string *)
+  | '"' ->
+    let str = (Buffer.contents buffer) in
+    Some (Token.T_STRING str, stream)
   (* Non-printable chars must be escaped *)
   | '\x00' .. '\x1f' | '\x7f' .. '\xff' ->
     failwith "Non-printable chars must be escaped!"
@@ -76,9 +81,6 @@ and lex_string buffer stream =
       | _ -> failwith "Invalid escape character!"
     end ;
     lex_string buffer stream
-  | '"' ->
-    let str = (Buffer.contents buffer) in
-    Some (Token.T_STRING str, stream)
 
 and lex_hex buffer stream =
   match Stream.peek stream with

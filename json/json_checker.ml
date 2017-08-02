@@ -13,12 +13,14 @@ let check_json_file file () =
       Printf.printf "%s: BAD\n\tError: %s.\nChar pos = %d\n"
         file e (Stream.count stream)
     | Some (Parser.Ok _, stream) ->
-      match Parser.parse_top_level @@ Lexer.lex stream with
-      | None -> Printf.printf "%s: GOOD\n" file
-      | _ ->
-        let e = "Error: Got extra token after JSON Array/Object" in
-        Printf.printf "%s: BAD.\n%s\nChar pos = %d\n"
-          file e (Stream.count stream)
+      begin
+        match Parser.parse_top_level @@ Lexer.lex stream with
+        | None -> Printf.printf "%s: GOOD\n" file
+        | _ ->
+          let e = "Error: Got extra token after JSON Array/Object" in
+          Printf.printf "%s: BAD.\n%s\nChar pos = %d\n"
+            file e (Stream.count stream)
+      end
   with
   | Failure s ->
     Printf.printf "%s: BAD\n\tException: %s\n" file s
