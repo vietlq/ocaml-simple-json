@@ -1,7 +1,7 @@
 #!/bin/bash -x
 
 ocamlopt -p -ccopt -O2 -ccopt -fno-omit-frame-pointer -o time_test_json \
-    json.ml lexer.ml parser.ml time_test_json.ml \
+    json.cmx lexer.cmx parser.cmx time_test_json.ml \
     && ./time_test_json data/test_tiny.json \
     && ./time_test_json data/test_small.json \
     && echo Extracting data/test_medium.json.gz \

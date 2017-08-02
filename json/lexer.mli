@@ -1,7 +1,5 @@
+
 val lex : char Stream.t -> (Token.token * char Stream.t) option
-val lex_string :
-  Buffer.t -> char Stream.t -> (Token.token * char Stream.t) option
-val lex_number :
-  Buffer.t -> char Stream.t -> (Token.token * char Stream.t) option
-val lex_tfn :
-  Buffer.t -> char Stream.t -> (Token.token * char Stream.t) option
+(** A simple Lexer interface that takes a stream of char and
+    returns lexing results.
+*)

@@ -10,6 +10,6 @@ function check_json()
 }
 
 ocamlopt -p -ccopt -O2 -ccopt -fno-omit-frame-pointer -o json_checker \
-    json.ml lexer.ml parser.ml json_checker.ml \
+    json.cmx lexer.cmx parser.cmx json_checker.ml \
     && echo Running JSON Checker: \
     && check_json
