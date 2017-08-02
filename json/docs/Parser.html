@@ -24,7 +24,7 @@
 <h1>Module <a href="type_Parser.html">Parser</a></h1>
 
 <pre><span class="keyword">module</span> Parser: <code class="code">sig</code> <a href="Parser.html">..</a> <code class="code">end</code></pre><div class="info module top">
-Return variant type: Ok for good operations and Error for errors<br>
+Parse top level JSON values from tokens: Array or Object<br>
 </div>
 <hr width="100%">
 
@@ -41,12 +41,12 @@ Return variant type: Ok for good operations and Error for errors<br>
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
 <code><span id="TYPEELTresult.Error"><span class="constructor">Error</span></span> <span class="keyword">of</span> <code class="type">'b</code></code></td>
-<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Return variant type: Ok for good operations and Error for errors<br>
-</div>
-</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+
 </tr></table>
 
+<div class="info ">
+Return variant type: <code class="code">Ok</code> for good operations and <code class="code">Error</code> for errors<br>
+</div>
 
 
 <pre><span id="VALparse_top_level"><span class="keyword">val</span> parse_top_level</span> : <code class="type">(<a href="Token.html#TYPEtoken">Token.token</a> * char Stream.t) option -><br>       ((<a href="Json.html#TYPEvalue">Json.value</a>, string) <a href="Parser.html#TYPEresult">result</a> * char Stream.t) option</code></pre><div class="info ">

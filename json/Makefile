@@ -1,6 +1,6 @@
 .PHONY: all clean token json lexer parser test
 .PHONY: build_parser debug_parser interfaces time_test
-.PHONY: build_basics
+.PHONY: build_basics docs
 
 all: interfaces build_basics build_parser
 	make test | wc
@@ -53,3 +53,6 @@ lexer:
 parser:
 	ocamlc -c parser.mli
 	ocamlc -c parser.ml
+
+docs:
+	ocamldoc -html *.mli -d docs/

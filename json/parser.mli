@@ -1,5 +1,11 @@
-type ('a, 'b) result = Ok of 'a | Error of 'b
-(** Return variant type: Ok for good operations and Error for errors *)
+(**
+    Parse top level JSON values from tokens: Array or Object
+*)
+
+(** Return variant type: [Ok] for good operations and [Error] for errors *)
+type ('a, 'b) result =
+    Ok of 'a
+  | Error of 'b
 
 val parse_top_level :
   (Token.token * char Stream.t) option ->
