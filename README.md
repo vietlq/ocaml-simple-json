@@ -1,3 +1,3 @@
-# OCaml Simple Json
+# OCaml Simple JSON
 
-Implemented using pure OCaml streams. Old implementation used Camlp4 and is no longer used.
+Implemented using pure OCaml streams.
